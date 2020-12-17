@@ -28,15 +28,16 @@ CREATE TABLE IF NOT EXISTS messages (
     REFERENCES rooms(id)
 );
 
-SELECT rooms.roomname
-FROM rooms
-INNER JOIN messages ON rooms.id=messages.roomid;
+-- SELECT rooms.roomname, messages.roomid
+-- FROM rooms
+-- INNER JOIN messages ON rooms.id=messages.roomid;
 
-SELECT users.username
-FROM users
-INNER JOIN messages ON users.id=messages.userid;
+-- SELECT users.username
+-- FROM users
+-- INNER JOIN messages ON users.id=messages.userid;
 
 /*  Execute this file from the command line by typing:
  *    mysql -u root < server/schema.sql
  *  to create the database and the tables.*/
+
 
