@@ -68,19 +68,29 @@ describe('Persistent Node Chat Server', function() {
 
   it('Should output all messages from the DB', function(done) {
     // Let's insert a message into the db
-    var queryString = 'SELECT * FROM rooms INNER JOIN messages ON rooms.id=messages.roomid;';
+
+    var qString2 = 'INSERT INTO users (username) VALUES ("valjean")';
+    var qString3 = 'INSERT INTO messages (messagetext) VALUES ("Men like you can never change!")';
     var queryArgs = [];
-    // TODO - The exact query string and query args to use
+    // TODO - The exact query string an
+    // d query args to use
     // here depend on the schema you design, so I'll leave
     // them up to you. */
 
-    dbConnection.query(queryString, queryArgs, function(err) {
+    dbConnection.query(qString2, function(err) {
+      if (err) { throw err; }
+      done();
+    });
+
+    dbConnection.query(qString3, queryArgs, function(err) {
       if (err) { throw err; }
 
       // Now query the Node chat server and see if it returns
       // the message we just inserted:
       request('http://127.0.0.1:3000/classes/messages', function(error, response, body) {
+        console.log(error);
         var messageLog = JSON.parse(body);
+        console.log('Message log: ', messageLog);
         expect(messageLog[0].messagetext).to.equal('Men like you can never change!');
         expect(messageLog[0].roomname).to.equal('main');
         done();
